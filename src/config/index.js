@@ -13,6 +13,8 @@ export const config = {
     uri: 'mysql://root:secret@localhost:3306/simpleshop',
       options: {
         logging: false, // Disable logging for MySQL
+        connectTimeout: 5000, // 5 seconds connection timeout
+        acquireTimeoutMillis: 5000, // 5 seconds acquire timeout
       }
   },
   redis: {

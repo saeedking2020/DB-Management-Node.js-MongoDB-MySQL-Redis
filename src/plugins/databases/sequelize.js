@@ -6,10 +6,11 @@ import { pathToFileURL } from 'url';
 
 async function sequelizePlugin(fastify, config) {
   let mysqlStatus = "disconnected";
+  let sequelize = null;
 
   // TODO: Connect to MySQL via Sequelize and update the status
   try {
-    const sequelize = new Sequelize(config.uri, config.options);
+    sequelize = new Sequelize(config.uri, config.options);
     await sequelize.authenticate();
     fastify.log.info("Connected to MySQL via Sequelize");
     mysqlStatus = "connected";
@@ -60,7 +61,9 @@ async function sequelizePlugin(fastify, config) {
   fastify.addHook("onClose", async (fastifyInstance, done) => {
     mysqlStatus = "disconnected";
     // TODO: Close Sequelize connection
-    await sequelize.close();
+    if (sequelize) {
+      await sequelize.close();
+    }
     done();
   });
 }

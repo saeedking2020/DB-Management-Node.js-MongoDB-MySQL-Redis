@@ -17,7 +17,7 @@ async function mongoosePlugin(fastify, config) {
     fastify.decorate("Item", Item); // Make the Item model available to other plugins
   } catch (err) {
     fastify.log.error("Failed to connect to MongoDB");
-    throw error; // Rethrow the error to prevent the server from starting
+    throw err; // Rethrow the error to prevent the server from starting
   }
 
   // Graceful shutdown
